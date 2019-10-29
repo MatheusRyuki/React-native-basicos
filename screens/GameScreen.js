@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 
@@ -19,13 +19,39 @@ const GameScreen = props => {
     gerarNumeroAleatorio(1, 100, props.escolha)
   );
 
+  const menor = useRef(1);
+  const maior = useRef(100);
+
+  const nextGuessHandler = direction => {
+    if (
+      (direction === "menos" && numero < props.escolha) ||
+      (direction === "mais" && numero > props.escolha)
+    ) {
+      Alert.alert("Não minta!", "Você sabia que isso estava errado...", [
+        { text: "Desculpa!", style: "cancel" }
+      ]);
+      return;
+    }
+    if (direction === "menos") {
+      maior.current = numero;
+    } else {
+      menor.current = numero;
+    }
+    const nextNumber = gerarNumeroAleatorio(
+      menor.current,
+      maior.current,
+      numero
+    );
+    setNumero(nextNumber);
+  };
+
   return (
     <View style={styles.screen}>
       <Text>Tentativa do Oponente</Text>
       <NumberContainer>{numero}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <Button title="Menos" onPress={() => {}} />
-        <Button title="Mais" onPress={() => {}} />
+        <Button title="Menos" onPress={() => nextGuessHandler("menos")} />
+        <Button title="Mais" onPress={() => nextGuessHandler("mais")} />
       </Card>
     </View>
   );
