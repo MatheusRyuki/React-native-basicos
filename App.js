@@ -4,10 +4,30 @@ import Header from "./components/Header";
 import GameStartScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
 import GameOverScreen from "./screens/GameOver";
+import * as Font from "expo-font";
+import { AppLoading } from "expo";
+
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf")
+  });
+};
 
 export default App = () => {
   const [state, setState] = useState();
   const [turn, setTurn] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  if (!loading) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setLoading(true)}
+        onError={err => console.log(err)}
+      />
+    );
+  }
 
   const startGameHandler = selectedNumber => {
     setState(selectedNumber);
