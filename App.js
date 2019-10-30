@@ -14,6 +14,11 @@ export default App = () => {
     setTurn(0);
   };
 
+  const restartHandler = () => {
+    setTurn(0);
+    setState(null);
+  };
+
   const gameOverHandler = turnos => {
     setTurn(turnos);
   };
@@ -23,7 +28,9 @@ export default App = () => {
   if (state && turn <= 0) {
     content = <GameScreen escolha={state} onGameOver={gameOverHandler} />;
   } else if (turn > 0) {
-    content = <GameOverScreen />;
+    content = (
+      <GameOverScreen turnos={turn} numero={state} restart={restartHandler} />
+    );
   }
 
   return (
