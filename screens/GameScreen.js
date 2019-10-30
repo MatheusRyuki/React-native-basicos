@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
@@ -19,8 +19,17 @@ const GameScreen = props => {
     gerarNumeroAleatorio(1, 100, props.escolha)
   );
 
+  const [turnos, setTurnos] = useState(0);
   const menor = useRef(1);
   const maior = useRef(100);
+
+  const { escolha, onGameOver } = props;
+
+  useEffect(() => {
+    if (numero === props.escolha) {
+      props.onGameOver(turnos);
+    }
+  }, [numero, escolha, onGameOver]);
 
   const nextGuessHandler = direction => {
     if (
@@ -43,6 +52,7 @@ const GameScreen = props => {
       numero
     );
     setNumero(nextNumber);
+    setTurnos(turnos => turnos + 1);
   };
 
   return (
