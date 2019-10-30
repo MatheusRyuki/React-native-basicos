@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Card from "../components/Card";
+import BodyText from "../components/BodyText";
+import TitleText from "../components/TitleText";
 import {
   View,
   StyleSheet,
@@ -32,7 +34,7 @@ const StartGameScreen = props => {
   if (confirmed) {
     confirmedOutput = (
       <Card style={styles.numeroEscolhido}>
-        <Text>Você escolheu</Text>
+        <TitleText>Você escolheu</TitleText>
         <NumberContainer>{numero}</NumberContainer>
         <Button
           title={"COMEÇAR O JOGO"}
@@ -64,9 +66,9 @@ const StartGameScreen = props => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        <Text style={styles.title}>Iniciar um novo jogo!</Text>
+        <TitleText style={styles.title}>Iniciar um novo jogo!</TitleText>
         <Card style={styles.inputContainer}>
-          <Text>Selecione um Número!</Text>
+          <BodyText>Selecione um Número!</BodyText>
           <Input
             blurOnSubmit
             autoCapitalize="none"
@@ -118,8 +120,6 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   title: {
-    fontFamily: "open-sans-bold",
-    fontSize: 20,
     marginVertical: 10
   },
   button: {
