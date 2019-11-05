@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
@@ -17,10 +17,10 @@ const gerarNumeroAleatorio = (min, max, excluir) => {
   }
 };
 
-const renderList = (value, numRound) => (
-  <View key={value} style={styles.listItem}>
-    <BodyText>#{numRound}</BodyText>
-    <BodyText>{value}</BodyText>
+const renderList = (listLength, itemData) => (
+  <View style={styles.listItem}>
+    <BodyText>#{listLength - itemData.index}</BodyText>
+    <BodyText>{itemData.item}</BodyText>
   </View>
 );
 
@@ -78,11 +78,17 @@ const GameScreen = props => {
         </MainButton>
       </Card>
       <View style={styles.list}>
-        <ScrollView contentContainerStyle={styles.contentList}>
+        {/* <ScrollView contentContainerStyle={styles.contentList}>
           {tentativa.map((element, index) =>
             renderList(element, tentativa.length - index)
           )}
-        </ScrollView>
+          </ScrollView> */}
+        <FlatList
+          keyExtractor={item => item.toString()}
+          data={tentativa}
+          renderItem={item => renderList(tentativa.length, item)}
+          contentContainerStyle={styles.contentList}
+        />
       </View>
     </View>
   );
@@ -109,15 +115,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "60%"
+    width: "100%"
   },
   list: {
-    width: "80%",
+    width: "60%",
     flex: 1
   },
   contentList: {
     flexGrow: 1,
-    alignItems: "center",
     justifyContent: "flex-end"
   }
 });
