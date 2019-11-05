@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
+import { Ionicons } from "@expo/vector-icons";
 
 const gerarNumeroAleatorio = (min, max, excluir) => {
   min = Math.ceil(min);
@@ -61,8 +62,12 @@ const GameScreen = props => {
       <Text>Tentativa do Oponente</Text>
       <NumberContainer>{numero}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <MainButton onPress={() => nextGuessHandler("menos")}>Menos</MainButton>
-        <MainButton onPress={() => nextGuessHandler("mais")}>Mais</MainButton>
+        <MainButton onPress={() => nextGuessHandler("menos")}>
+          <Ionicons name={"md-remove"} size={24} color="white" />
+        </MainButton>
+        <MainButton onPress={() => nextGuessHandler("mais")}>
+          <Ionicons name={"md-add"} size={24} color="white" />
+        </MainButton>
       </Card>
     </View>
   );
