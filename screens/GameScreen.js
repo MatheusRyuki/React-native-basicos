@@ -4,6 +4,7 @@ import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
 import { Ionicons } from "@expo/vector-icons";
+import BodyText from "../components/BodyText";
 
 const gerarNumeroAleatorio = (min, max, excluir) => {
   min = Math.ceil(min);
@@ -15,6 +16,13 @@ const gerarNumeroAleatorio = (min, max, excluir) => {
     return numero;
   }
 };
+
+const renderList = (value, numRound) => (
+  <View key={value} style={styles.listItem}>
+    <BodyText>#{numRound}</BodyText>
+    <BodyText>{value}</BodyText>
+  </View>
+);
 
 const GameScreen = props => {
   const tentativaInicial = gerarNumeroAleatorio(1, 100, props.escolha);
@@ -69,13 +77,13 @@ const GameScreen = props => {
           <Ionicons name={"md-add"} size={24} color="white" />
         </MainButton>
       </Card>
-      <ScrollView>
-        {tentativa.map(element => (
-          <View key={element}>
-            <Text>{element}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View style={styles.list}>
+        <ScrollView>
+          {tentativa.map((element, index) =>
+            renderList(element, tentativa.length - index)
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -92,6 +100,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 400,
     maxWidth: "90%"
+  },
+  listItem: {
+    borderColor: "#ccc",
+    padding: 15,
+    marginVertical: 10,
+    backgroundColor: "white",
+    borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
+  list: {
+    width: "80%",
+    flex: 1
   }
 });
 
