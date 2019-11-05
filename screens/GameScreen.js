@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, Button, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
@@ -17,11 +17,11 @@ const gerarNumeroAleatorio = (min, max, excluir) => {
 };
 
 const GameScreen = props => {
-  const [numero, setNumero] = useState(
-    gerarNumeroAleatorio(1, 100, props.escolha)
-  );
+  const tentativaInicial = gerarNumeroAleatorio(1, 100, props.escolha);
 
-  const [turnos, setTurnos] = useState(0);
+  const [numero, setNumero] = useState(tentativaInicial);
+
+  const [tentativa, setTentativa] = useState([tentativaInicial]);
   const menor = useRef(1);
   const maior = useRef(100);
 
@@ -29,7 +29,7 @@ const GameScreen = props => {
 
   useEffect(() => {
     if (numero === props.escolha) {
-      props.onGameOver(turnos);
+      props.onGameOver(tentativa.length);
     }
   }, [numero, escolha, onGameOver]);
 
@@ -46,7 +46,7 @@ const GameScreen = props => {
     if (direction === "menos") {
       maior.current = numero;
     } else {
-      menor.current = numero;
+      menor.current = numero + 1;
     }
     const nextNumber = gerarNumeroAleatorio(
       menor.current,
@@ -54,7 +54,7 @@ const GameScreen = props => {
       numero
     );
     setNumero(nextNumber);
-    setTurnos(turnos => turnos + 1);
+    setTentativa(curTentativa => [nextNumber, ...curTentativa]);
   };
 
   return (
@@ -69,6 +69,13 @@ const GameScreen = props => {
           <Ionicons name={"md-add"} size={24} color="white" />
         </MainButton>
       </Card>
+      <ScrollView>
+        {tentativa.map(element => (
+          <View key={element}>
+            <Text>{element}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 };
