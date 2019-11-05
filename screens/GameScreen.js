@@ -78,7 +78,7 @@ const GameScreen = props => {
         </MainButton>
       </Card>
       <View style={styles.list}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.contentList}>
           {tentativa.map((element, index) =>
             renderList(element, tentativa.length - index)
           )}
@@ -108,11 +108,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderWidth: 1,
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
+    width: "60%"
   },
   list: {
     width: "80%",
     flex: 1
+  },
+  contentList: {
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "flex-end"
   }
 });
 
