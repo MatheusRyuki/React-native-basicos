@@ -1,5 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Alert,
+  Dimensions
+} from "react-native";
 import NumberContainer from "../components/NumberContainer";
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
@@ -65,6 +72,12 @@ const GameScreen = props => {
     setTentativa(curTentativa => [nextNumber, ...curTentativa]);
   };
 
+  let listContainerStyle = styles.list;
+
+  if (Dimensions.get("window").width < 350) {
+    listContainerStyle = styles.bigList;
+  }
+
   return (
     <View style={styles.screen}>
       <Text>Tentativa do Oponente</Text>
@@ -77,12 +90,7 @@ const GameScreen = props => {
           <Ionicons name={"md-add"} size={24} color="white" />
         </MainButton>
       </Card>
-      <View style={styles.list}>
-        {/* <ScrollView contentContainerStyle={styles.contentList}>
-          {tentativa.map((element, index) =>
-            renderList(element, tentativa.length - index)
-          )}
-          </ScrollView> */}
+      <View style={listContainerStyle}>
         <FlatList
           keyExtractor={item => item.toString()}
           data={tentativa}
@@ -119,6 +127,10 @@ const styles = StyleSheet.create({
   },
   list: {
     width: "60%",
+    flex: 1
+  },
+  bigList: {
+    width: "80%",
     flex: 1
   },
   contentList: {
