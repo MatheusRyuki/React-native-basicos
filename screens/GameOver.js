@@ -40,7 +40,7 @@ const GameOverScreen = props => {
 const styles = StyleSheet.create({
   test: {
     textAlign: "center",
-    fontSize: Dimensions.get("window").height < 400 ? "16" : 20
+    fontSize: Dimensions.get("window").height < 400 ? 16 : 20
   },
   highlight: {
     color: Colors.primary,
