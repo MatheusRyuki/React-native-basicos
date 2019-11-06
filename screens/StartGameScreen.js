@@ -4,8 +4,8 @@ import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
 import {
   View,
-  StyleSheet,
   Button,
+  StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
