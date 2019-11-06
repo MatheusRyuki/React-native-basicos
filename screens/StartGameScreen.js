@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
@@ -22,6 +22,21 @@ const StartGameScreen = props => {
   const [value, setValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [numero, setNumero] = useState();
+  const [buttonWidth, setButtonWidth] = useState(
+    Dimensions.get("window").width / 4
+  );
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setButtonWidth(Dimensions.get("window").width / 4);
+    };
+
+    Dimensions.addEventListener("change", updateLayout);
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  });
 
   const inputHandler = text => {
     setValue(text.replace(/[^0-9]/g, ""));
@@ -84,14 +99,14 @@ const StartGameScreen = props => {
                 onChangeText={inputHandler}
               />
               <View style={styles.buttonContainer}>
-                <View style={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title="Reset"
                     color={Colors.accent}
                     onPress={resetHandler}
                   />
                 </View>
-                <View tyle={styles.button}>
+                <View style={{ width: buttonWidth }}>
                   <Button
                     title="Confirmar"
                     onPress={confirmHandler}
