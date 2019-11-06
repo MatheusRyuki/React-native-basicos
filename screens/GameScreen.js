@@ -35,7 +35,12 @@ const GameScreen = props => {
   const tentativaInicial = gerarNumeroAleatorio(1, 100, props.escolha);
 
   const [numero, setNumero] = useState(tentativaInicial);
-
+  const [deviceWidth, setDeviceWidth] = useState(
+    Dimensions.get("window").width
+  );
+  const [deviceHeight, setDeviceHeight] = useState(
+    Dimensions.get("window").height
+  );
   const [tentativa, setTentativa] = useState([tentativaInicial]);
   const menor = useRef(1);
   const maior = useRef(100);
@@ -47,6 +52,19 @@ const GameScreen = props => {
       props.onGameOver(tentativa.length);
     }
   }, [numero, escolha, onGameOver]);
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setDeviceWidth(Dimensions.get("window").width);
+      setDeviceHeight(Dimensions.get("window").height);
+    };
+
+    Dimensions.addEventListener("change", updateLayout);
+
+    return () => {
+      Dimensions.removeEventListener("change", updateLayout);
+    };
+  });
 
   const nextGuessHandler = direction => {
     if (
@@ -74,8 +92,33 @@ const GameScreen = props => {
 
   let listContainerStyle = styles.list;
 
-  if (Dimensions.get("window").width < 350) {
+  if (deviceWidth < 350) {
     listContainerStyle = styles.bigList;
+  }
+
+  if (deviceHeight < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text>Tentativa do Oponente</Text>
+        <NumberContainer>{numero}</NumberContainer>
+        <View style={styles.control}>
+          <MainButton onPress={() => nextGuessHandler("menos")}>
+            <Ionicons name={"md-remove"} size={24} color="white" />
+          </MainButton>
+          <MainButton onPress={() => nextGuessHandler("mais")}>
+            <Ionicons name={"md-add"} size={24} color="white" />
+          </MainButton>
+        </View>
+        <View style={listContainerStyle}>
+          <FlatList
+            keyExtractor={item => item.toString()}
+            data={tentativa}
+            renderItem={item => renderList(tentativa.length, item)}
+            contentContainerStyle={styles.contentList}
+          />
+        </View>
+      </View>
+    );
   }
 
   return (
@@ -103,6 +146,12 @@ const GameScreen = props => {
 };
 
 const styles = StyleSheet.create({
+  control: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+    alignItems: "center"
+  },
   screen: {
     flex: 1,
     padding: 10,

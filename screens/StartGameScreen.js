@@ -108,7 +108,7 @@ const StartGameScreen = props => {
                 </View>
                 <View style={{ width: buttonWidth }}>
                   <Button
-                    title="Confirmar"
+                    title="Escolher"
                     onPress={confirmHandler}
                     color={Colors.primary}
                   />
@@ -144,9 +144,6 @@ const styles = StyleSheet.create({
   },
   title: {
     marginVertical: 10
-  },
-  button: {
-    width: Dimensions.get("window").width / 4
   },
   input: {
     width: 50,
