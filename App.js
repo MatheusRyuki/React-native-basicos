@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import Header from "./components/Header";
 import GameStartScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
@@ -54,10 +54,10 @@ export default App = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Header title="Adivinhe o Número" />
       {content}
-    </View>
+    </SafeAreaView>
   );
 };
 
